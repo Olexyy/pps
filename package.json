@@ -1,0 +1,32 @@
+{
+  "name": "ppok",
+  "version": "0.0.1",
+  "description": "Planning poker service",
+  "main": "./server/server.js",
+  "scripts": {
+    "start": "cd server && node server.js",
+    "serve": "cd server && node server.js",
+    "watch-cli": "cd client && npm run watch",
+    "build-cli": "cd client && npm run build"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olexyy/pps.git"
+  },
+  "keywords": [
+    "planning poker"
+  ],
+  "author": "Olexii Osadchii",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Olexyy/pps/issues"
+  },
+  "homepage": "https://github.com/Olexyy/pps#readme"
+}
