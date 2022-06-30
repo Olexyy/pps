@@ -1,6 +1,6 @@
 <template>
-  <div class="mdl-grid mdl-cell mdl-cell--12-col">
-    <table id="table" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+  <mdl-cell>
+    <mdl-table>
       <thead>
         <tr>
           <th class="width-fixed-50">№</th>
@@ -53,13 +53,16 @@
           <td class="width-fixed-50"></td>
         </tr>
       </tbody>
-    </table>
-  </div>
+    </mdl-table>
+  </mdl-cell>
 </template>
 
 <script>
+  import MdlCell from "./mdl/MdlCell12";
+  import MdlTable from "./mdl/MdlTable12";
   export default {
     name: 'Users',
+    components: {MdlCell, MdlTable},
     methods: {
       isOnline(uuid) {
         return this.$store.state.app.isOnline(uuid);

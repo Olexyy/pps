@@ -1,9 +1,12 @@
 header.mdl-layout__header {
-    background-color: rgb(27, 54, 80) !important;
+    background-color: #232323 !important;
+    //opacity: 0.9;
     .mdl-layout-title {
         a {
-            color: white;
+            color: #a7a7a7!important; // #757575
             text-decoration: none;
+            font-weight: 700;
+            font-size: 24px;
         }
     }
 }
@@ -51,6 +54,10 @@ body {
 }
 a {
     cursor: pointer !important;
-    color: rgb(27, 54, 80) !important;
+    color: rgb(150, 8, 6) !important;
     text-decoration: none !important;
+}
+
+.mdl-button.mdl-button--colored:not(:disabled) {
+    color: rgb(150, 8, 6) !important;
 }

@@ -6,7 +6,7 @@
           <div class="mdl-card__title">
             <h3 class="mdl-card__title-text">
               <span id='room_marker'>
-                <b v-if="room">Planning Poker Service</b>
+                <b v-if="room">Planning Poker</b>
               </span>
             </h3>
           </div>

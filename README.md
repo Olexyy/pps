@@ -1,5 +1,5 @@
 
-# Planning poker service
+# Ilp
 
 ## Installing
 ```bash
@@ -20,21 +20,38 @@ npm run watch-cli
 npm run build-cli
 ```
 
-## Deploy
-
-```
+## Deploy initial
+```bash
 sudo snap install --classic heroku
 heroku login
-git remote add heroku https://git.heroku.com/ppsrv.git
-git push --force heroku [from:branch]:[to:branch]
+git remote add heroku https://git.heroku.com/il-p.git
+heroku git:remote -a il-p
 ```
 
-## Specs
+## Deploy
+```bash
+git push heroku [from:branch]:[to:branch]
 ```
-1. User can join or create room at landing page.
-2. If user creates room, he may set a pass, and he is considered to be its owner.
-3. If user visits a room, he may choose name, and should input pass if it is set.
-4. Owner can delete room and kick any other user any time.
-TODO describe later process
 
+## Functions:
+```md
+1. User can join or create room.
+2. Owner of room can set password.
+3. Visitor shuold set name and pass if required.
+4. Owner can kick any other user/close room.
+```
+
+## TODO OPTIONS:
+```md
+1. dynamic description
+2. control flow only owner
+3. assign owner / admin
+4. options:
+    - sound configurable
+    - remove play sound button    
+    - reccomend min / max
+```
+## Bugs
+```md
+1. pass is always on room enter
 ```

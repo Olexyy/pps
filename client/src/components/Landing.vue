@@ -1,12 +1,12 @@
 <!--suppress JSUnresolvedVariable -->
 <template>
-  <div class="mdl-grid mdl-cell mdl-cell--12-col">
+  <mdl-cell>
     <div class="mdl-card__supporting-text">
       Planning poker, also called Scrum poker, is a consensus-based, gamified technique for estimating, mostly used for timeboxing in Agile principles. <br>
       <a target="_blank" href="https://en.wikipedia.org/wiki/Planning_poker">Learn more.</a><br>
       Create new room or visit existing. <br>
     </div>
-    <div class="mdl-grid mdl-cell mdl-cell--12-col">
+    <mdl-cell>
       <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell-6-col">
         <div class="mdl-card__title ">
           <span><b>Join room</b></span>
@@ -60,12 +60,14 @@
           </a>
         </div>
       </div>
-    </div>
-  </div>
+    </mdl-cell>
+  </mdl-cell>
 </template>
 
 <script>
+  import MdlCell from "./mdl/MdlCell12";
   export default {
+    components: {MdlCell},
     name: 'Landing',
     methods: {
       onRoomCreate(e) {

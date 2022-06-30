@@ -172,6 +172,7 @@
       handleEvent(e) {
         const name = e.target.value;
         if (name && name.length) {
+          e.target.parentNode.classList.add('is-dirty');
           if (this.$store.state.app.nameExists(name)) {
             e.target.parentNode.classList.add('is-invalid');
           }

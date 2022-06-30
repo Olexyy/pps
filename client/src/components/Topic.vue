@@ -1,6 +1,6 @@
 <template>
-  <div class="mdl-grid mdl-cell mdl-cell--12-col">
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--11-col">
+  <mdl-cell>
+    <mdl-text-field>
       <input 
         v-model="topic"
         v-on:blur="onBlur"
@@ -11,18 +11,21 @@
         id="topic"
         name="topic">
       <label class="mdl-textfield__label" for="topic">Topic...</label>
-    </div>
+    </mdl-text-field>
     <button
       :disabled="!validTopic"
       v-on:click="onReferenceClick"
       class="mdl-button mdl-card-pocker-card mdl-shadow--2dp mdl-cell mdl-cell--1-col">
       <span class="material-icons" style="font-size: 32px;">open_in_new</span>
     </button>
-  </div>
+  </mdl-cell>
 </template>
 
 <script>
+  import MdlCell from "./mdl/MdlCell12";
+  import MdlTextField from "./mdl/MdlTextField11";
   export default {
+    components: {MdlCell,MdlTextField},
     name: 'Topic',
     methods: {
       validUrl(string) {

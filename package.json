@@ -1,7 +1,7 @@
 {
-  "name": "ppok",
+  "name": "ilp",
   "version": "0.0.1",
-  "description": "Planning poker service",
+  "description": "IL planning",
   "main": "./server/server.js",
   "scripts": {
     "start": "cd server && node server.js",
@@ -21,12 +21,12 @@
     "url": "git+https://github.com/Olexyy/pps.git"
   },
   "keywords": [
-    "planning poker"
+    "planning"
   ],
   "author": "Olexii Osadchii",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Olexyy/pps/issues"
+    "url": "https://github.com/Olexyy/ilp/issues"
   },
-  "homepage": "https://github.com/Olexyy/pps#readme"
+  "homepage": "https://github.com/Olexyy/ilp#readme"
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="mdl-grid mdl-cell mdl-cell--12-col">
+  <mdl-cell>
     <button :disabled="vote === '0.5' || !canBeEnabled" v-on:click="onClick" data-value="0.5" class="mdl-button mdl-card-pocker-card mdl-shadow--2dp mdl-cell mdl-cell--1-col">
       1/2
     </button>
@@ -36,11 +36,13 @@
     <button :disabled="vote === 'break' || !canBeEnabled" v-on:click="onClick" data-value="break" class="mdl-button mdl-card-pocker-card mdl-shadow--2dp mdl-cell mdl-cell--1-col">
         <span style="font-size: 32px" class="material-icons">coffee</span>
     </button>
-  </div>
+  </mdl-cell>
 </template>
 
 <script>
+  import MdlCell from "./mdl/MdlCell12";
   export default {
+    components: {MdlCell},
     name: 'Cards',
     methods: {
       onClick(e) {
