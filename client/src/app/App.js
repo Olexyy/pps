@@ -129,9 +129,8 @@ class App {
         }
         // Validate incoming data.
         if (!this.validateData(value)) {
-            console.log('Incoming data is invalid.');
             if (this.isDebug()) {
-                console.log(JSON.stringify(value));
+                console.log('Incoming data is invalid.');
             }
             return;
         }
@@ -191,12 +190,12 @@ class App {
         if (this.discuss === 'discuss') {
             this.timer.start();
         }
-        // If everybody voted or we force result.
-        if ((this.discuss === 'discuss') || this.discuss === 'result') {
+
+        if (this.discuss === 'result') {
             this.timer.stop();
             this.result.submit();
         }
-        // If we have initial phase.
+
         if (this.discuss === 'idle') {
             this.timer.clear();
             this.result.clear();

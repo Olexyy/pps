@@ -22,7 +22,15 @@
             </span>
           </template>
           <template v-slot:supporting_text>
-            Write topic and click start to indicate discussion starts.
+            <span v-if="discuss === 'idle'">
+              Wait for topic and discussion start.
+            </span>
+            <span v-if="discuss === 'discuss'">
+              Estimate topic.
+            </span>
+            <span v-if="discuss === 'result'">
+              Results of topic estimation.
+            </span>
           </template>
           <div class="mdl-card__actions mdl-card--border"></div>
           <Topic/>  
@@ -81,7 +89,10 @@
       },
       hasAccess() {
         return this.$store.state.app.hasAccess;
-      }
+      },
+      discuss() {
+        return this.$store.state.app.discuss;
+      },
     },
     methods: {
       onChangeNameClick() {

@@ -33,7 +33,7 @@
           <span><b>Create room</b></span>
         </div>
         <div class="mdl-card__supporting-text" style="height: 145px;">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label display-block"
             v-bind:class="[roomNameCreateInvalid ? 'is-invalid is-focused' : '']">
             <input
               class="mdl-textfield__input"

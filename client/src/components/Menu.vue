@@ -1,28 +1,30 @@
 <template>
   <div class="mdl-card__menu">
     <span v-if="time">{{time}}</span>
-    <button
-      v-if="discuss === 'result'"
-      id="discuss" 
-      v-on:click="onDiscussClick"
-      class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Clear data
-    </button>
-    <button
-      v-else-if="discuss === 'discuss'"
-      id="discuss" 
-      v-on:click="onDiscussClick"
-      class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Stop discussion
-    </button>
-    <button
-      :disabled="topic === '' && discuss === 'idle'"
-      v-else
-      id="discuss" 
-      v-on:click="onDiscussClick"
-      class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Start discussion
-    </button>
+    <span v-if="isOwner">
+      <button
+        v-if="discuss === 'result'"
+        id="discuss"
+        v-on:click="onDiscussClick"
+        class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        Clear data
+      </button>
+      <button
+        v-else-if="discuss === 'discuss'"
+        id="discuss"
+        v-on:click="onDiscussClick"
+        class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        Stop discussion
+      </button>
+      <button
+        :disabled="topic === '' && discuss === 'idle'"
+        v-else
+        id="discuss"
+        v-on:click="onDiscussClick"
+        class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        Start discussion
+      </button>
+    </span>
   </div>
 </template>
 
@@ -38,6 +40,9 @@
       },
       topic() {
         return this.$store.state.app.topic;
+      },
+      isOwner() {
+        return this.$store.state.app.isOwner;
       }
     },
     methods: {
