@@ -2,33 +2,33 @@
     <main class="mdl-layout__content">
     <div class="page-content">
       <div class="mdl-grid">
-        <div v-if="room === 'global'" class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
-          <div class="mdl-card__title">
-            <h3 class="mdl-card__title-text">
-              <span id='room_marker'>
-                <b v-if="room">Planning Poker</b>
-              </span>
-            </h3>
-          </div>
+        <mdl-card v-if="room === 'global'" >
+          <template v-slot:title>
+            <div class="mdl-card__title">
+              <h3 class="mdl-card__title-text">
+                <span id='room_marker'>
+                  <b v-if="room">Planning Poker</b>
+                </span>
+              </h3>
+            </div>
+          </template>
           <div class="mdl-card__actions mdl-card--border"></div>
           <Landing/>
-        </div>
-        <div v-else-if="hasAccess" class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
-          <div class="mdl-card__title">
-            <h3 class="mdl-card__title-text">
-              <span id='room_marker'>
-                <b v-if="room">ROOM {{decodeURIComponent(room.toUpperCase())}}</b>
-              </span>
-            </h3>
-          </div>
-          <div class="mdl-card__supporting-text">
+        </mdl-card>
+        <mdl-card v-else-if="hasAccess">
+          <template v-slot:title>
+            <span id='room_marker'>
+              <b v-if="room">ROOM {{decodeURIComponent(room.toUpperCase())}}</b>
+            </span>
+          </template>
+          <template v-slot:supporting_text>
             Write topic and click start to indicate discussion starts.
-          </div>
+          </template>
           <div class="mdl-card__actions mdl-card--border"></div>
           <Topic/>  
           <Cards/>
           <Users/>
-          <div class="mdl-card__actions mdl-card--border">
+          <template v-slot:actions>
             <a id="change_name" v-on:click="onChangeNameClick" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
               Change name
             </a>
@@ -44,9 +44,9 @@
             <a v-if="isOwner" id="delete_room" v-on:click="deleteRoom" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
               Delete room
             </a>
-          </div>
+          </template>
           <Menu/>
-        </div>
+        </mdl-card>
       </div>
     </div>
   </main>
@@ -58,6 +58,7 @@
   import Topic from './Topic.vue'
   import Menu from './Menu.vue'
   import Landing from "./Landing";
+  import MdlCard from './mdl/MdlCard'
   export default {
     name: 'Main',
     components: {
@@ -66,6 +67,7 @@
       Topic,
       Menu,
       Landing,
+      MdlCard
     },
     computed: {
       room() {

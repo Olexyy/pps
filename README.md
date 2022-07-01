@@ -50,6 +50,8 @@ git push heroku [from:branch]:[to:branch]
     - sound configurable
     - remove play sound button    
     - reccomend min / max
+5. set state `result` on any unvoted == false, remove any unvoted prop
+6. room name validation???
 ```
 ## Bugs
 ```md

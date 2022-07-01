@@ -49,7 +49,12 @@
         if (this.canBeEnabled) {
           const el = e.target;
           const value = el.getAttribute('data-value');
-          this.$store.state.app.emit('update', {vote: value});
+          if (this.$store.state.app.othersNonVoted) {
+            this.$store.state.app.emit('update', {vote: value});
+          }
+          else {
+            this.$store.state.app.emit('update', {vote: value}, {discuss: 'result'});
+          }
         }
       }
     },
@@ -58,7 +63,7 @@
         return this.$store.state.app.vote;
       },
       canBeEnabled() {
-				return this.$store.state.app.discuss === 'discuss' && this.$store.state.app.anyUnvoted && this.$store.state.app.voting;
+				return this.$store.state.app.discuss === 'discuss' && this.$store.state.app.voting;
       }
     }
   }

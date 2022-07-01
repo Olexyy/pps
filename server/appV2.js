@@ -168,6 +168,10 @@ class AppV2 {
             else if (this.app.rooms[room].pass === pass) {
                 return true;
             }
+            // If no pass needed.
+            else if (this.app.rooms[room].pass === '') {
+                return true;
+            }
         }
         return false;
     }

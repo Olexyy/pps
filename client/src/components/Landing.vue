@@ -6,8 +6,7 @@
       <a target="_blank" href="https://en.wikipedia.org/wiki/Planning_poker">Learn more.</a><br>
       Create new room or visit existing. <br>
     </div>
-    <mdl-cell>
-      <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell-6-col">
+      <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
         <div class="mdl-card__title ">
           <span><b>Join room</b></span>
         </div>
@@ -29,7 +28,7 @@
           </a>
         </div>
       </div>
-      <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell-6-col">
+      <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
         <div class="mdl-card__title ">
           <span><b>Create room</b></span>
         </div>
@@ -42,7 +41,7 @@
               ref="room"
               id="name"
               name="name">
-            <label class="mdl-textfield__label" for="name">Room name ...</label>
+            <label class="mdl-textfield__label" for="name">Room name ([a-zA-Z\d_-]{3,16}) ...</label>
           </div>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input
@@ -60,7 +59,6 @@
           </a>
         </div>
       </div>
-    </mdl-cell>
   </mdl-cell>
 </template>
 
@@ -111,7 +109,7 @@
         if (str === 'global') {
           return false;
         }
-        const pattern = new RegExp('^[a-z\\d_][a-z\\d-]{3,}$','i'); // fragment locator
+        const pattern = new RegExp('^[a-z\\d_-]{3,}$','i'); // fragment locator
         return !!pattern.test(str);
       },
       // validUrl(string) {

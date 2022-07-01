@@ -23,7 +23,7 @@
           <td v-else-if="player.vote === '' && discuss === 'discuss'" class="width-fixed-50">
             <img class="wait-throbber" src="./../assets/waiting.gif" alt="waiting"/>
           </td>
-          <td v-else-if="discuss === 'discuss' && anyUnvoted" class="width-fixed-50">
+          <td v-else-if="discuss === 'discuss'" class="width-fixed-50">
             <span style="color: gray" class="material-icons">done</span>
           </td>
           <td v-else class="width-fixed-50">
@@ -36,7 +36,7 @@
           <td v-if="isOwner && id === app.uuid" class="width-fixed-50"></td>
           <td v-else-if="isOwner" class="width-fixed-50"><a v-on:click="kick"><span style="color: gray" :data-uuid="id" class="material-icons">remove_circle</span></a></td>
         </tr>
-        <tr v-if="average">
+        <tr v-if="average && discuss === 'result'">
           <td class="width-fixed-50">Average:</td>
           <td class="width-minus-100" style="text-align: left!important;">{{average}}</td>
           <th class="width-fixed-50"></th>
@@ -44,7 +44,7 @@
           <td class="width-fixed-50"></td>
           <td class="width-fixed-50"></td>
         </tr>
-        <tr v-if="recommended">
+        <tr v-if="recommended && discuss === 'result'">
           <td class="width-fixed-50">Recommended:</td>
           <td class="width-minus-100" style="text-align: left!important;">{{recommended}}</td>
           <td class="width-fixed-50"></td>
@@ -87,9 +87,6 @@
       },
       app() {
         return this.$store.state.app;
-      },
-      anyUnvoted() {
-				return this.$store.state.app.anyUnvoted;
       },
       discuss() {
         return this.$store.state.app.discuss;

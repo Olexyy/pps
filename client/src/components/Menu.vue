@@ -2,7 +2,7 @@
   <div class="mdl-card__menu">
     <span v-if="time">{{time}}</span>
     <button
-      v-if="discuss === 'result' || (discuss === 'discuss' && !anyUnvoted)"
+      v-if="discuss === 'result'"
       id="discuss" 
       v-on:click="onDiscussClick"
       class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -36,9 +36,6 @@
       discuss() {
         return this.$store.state.app.discuss;
       },
-      anyUnvoted() {
-         return this.$store.state.app.anyUnvoted;
-      },
       topic() {
         return this.$store.state.app.topic;
       }
@@ -49,7 +46,7 @@
           this.$store.state.app.emit('update', {}, {discuss: 'discuss'});
           this.$store.state.app.emit('trigger', 'sound');
 				}
-        else if (this.$store.state.app.discuss === 'discuss' && this.$store.state.app.anyUnvoted) { 
+        else if (this.$store.state.app.discuss === 'discuss') {
 					this.$store.state.app.emit('update', {}, {discuss: 'result'});
 				}
 				else {

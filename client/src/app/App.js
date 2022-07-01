@@ -11,7 +11,7 @@ class App {
         this.data = null;
         this.userName = '';
         this.discuss = 'idle';
-        this.anyUnvoted = false;
+        this.othersNonVoted = false;
         this.timer = timer;
         this.result = result;
         this.room = null;
@@ -164,14 +164,17 @@ class App {
         this.userName = user.name;
         this.voting = user.voting;
         this.result.clear();
-        let unVoted = false;
+        let othersNonVoted = false;
         Object.keys(value.users).forEach((id) => {
             if (value.users[id].vote === '') {
                 // Take into account only online users.
                 if (this.isOnline(id)) {
                     // Take into account only voting users.
                     if (value.users[id].voting) {
-                        unVoted = true;
+                        // If this is not current user.
+                        if (id !== uuid) {
+                            othersNonVoted = true;
+                        }
                     }
                 }
             }
@@ -181,7 +184,7 @@ class App {
                 this.userName = value.users[id].name;
             }
         });
-        this.anyUnvoted = unVoted;
+        this.othersNonVoted = othersNonVoted;
         this.discuss = value.state.discuss || 'idle';
         this.topic = value.state.topic || '';
         // If we just started discuss.
@@ -189,7 +192,7 @@ class App {
             this.timer.start();
         }
         // If everybody voted or we force result.
-        if ((!this.anyUnvoted && this.discuss === 'discuss') || this.discuss === 'result') {
+        if ((this.discuss === 'discuss') || this.discuss === 'result') {
             this.timer.stop();
             this.result.submit();
         }
@@ -242,7 +245,7 @@ class App {
             data: this.data,
             userName: this.userName,
             discuss: this.discuss,
-            anyUnVoted: this.anyUnvoted,
+            othersNonVoted: this.othersNonVoted,
             timer: this.timer,
             result: this.result,
             room: this.room,
