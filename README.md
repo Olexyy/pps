@@ -43,17 +43,21 @@ git push heroku [from:branch]:[to:branch]
 
 ## TODO OPTIONS:
 ```md
-1. dynamic description
-2. control flow only owner
-3. assign owner / admin
+1. dynamic description OK
+2. control flow only owner OK
+3. assign admin -> TODO (may move process, set topic, kick (non owner))
 4. options:
-    - sound configurable
-    - remove play sound button    
-    - reccomend min / max
-5. set state `result` on any unvoted == false, remove any unvoted prop
-6. room name validation???
+    - sound configurable -> TODO
+    - remove play sound button ok    
+    - recommended min / max -> TODO
+    - OPTIONS button for owner -> TODO
+5. set state `result` on any unvoted == false, remove any unvoted prop OK
+6. room name validation??? OK
+7. debug console log in server and client ->
+8. pass validation -> 
+9. add enter button on non error dialogs ->
 ```
 ## Bugs
 ```md
-1. pass is always on room enter
+1. 
 ```

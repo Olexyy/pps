@@ -22,9 +22,9 @@ class AppV2 {
                     this.sockets.to(room).emit('status', this.app.rooms[room]);
                 }
             });
-            socket.on('create_room', (global, room, uuid, pass) => {
+            socket.on('create_room', (global, room, uuid, pass, state = {}) => {
                 console.log(JSON.stringify(room), JSON.stringify(uuid), JSON.stringify(pass));
-                if (this.createRoom(room, pass, uuid)) {
+                if (this.createRoom(room, pass, uuid, state)) {
                     this.ensureUser(room, socket, uuid);
                     console.log(JSON.stringify(this.app.rooms[room]));
                     this.sockets.to(socket.id).emit('create_room', room, true);
@@ -125,12 +125,12 @@ class AppV2 {
         });
     }
 
-    createRoom(room, pass, uuid) {
+    createRoom(room, pass, uuid, state = {}) {
         if (!this.app.rooms.hasOwnProperty(room)) {
             this.app.rooms[room] = {
                 sockets: {},
                 users: {},
-                state: {},
+                state: state,
                 pass: pass,
                 owner: uuid
             };

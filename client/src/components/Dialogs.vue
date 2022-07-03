@@ -77,31 +77,36 @@
           </div>
         </div>
       </dialog>
-<!--      <dialog class="mdl-dialog" ref="choose" id="choose_dialog">-->
-<!--        <h4 class="mdl-dialog__title">Choose or create room</h4>-->
-<!--        <div class="mdl-dialog__content">-->
-<!--          <div>Choose room or create new from proposal or own.</div>-->
-<!--          <div v-if="rooms.length">Select room</div>-->
-<!--          <a v-for="(item) in rooms" :href="`/room/${item}`" :key="item">{{item}}</a>-->
-<!--          <div v-if="rooms.length">New room</div>-->
-<!--          <a :href="'room/'+ uuid">{{uuid}}</a>-->
-<!--          <div class="mdl-textfield mdl-js-textfield mdl-textfield&#45;&#45;floating-label">-->
-<!--            <input-->
-<!--              v-on:blur="onBlurRoom"-->
-<!--              v-on:keypress="onKeyPressRoom"-->
-<!--              class="mdl-textfield__input"-->
-<!--              type="text"-->
-<!--              data-ref="room"-->
-<!--              id="room"-->
-<!--              name="room">-->
-<!--            <label class="mdl-textfield__label" for="room">Custom room...</label>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </dialog>-->
+      <dialog class="mdl-dialog" ref="options" id="options">
+        <h4 class="mdl-dialog__title">Room options</h4>
+        <div class="mdl-dialog__content">
+          <div>Choose room options.</div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input
+                class="mdl-textfield__input"
+                type="password"
+                id="option__pass"
+                name="option__pass">
+            <label class="mdl-textfield__label" for="option__pass">Room pass ...</label>
+          </div>
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="option__sound">
+            <input type="checkbox" id="option__sound" class="mdl-checkbox__input">
+            <span class="mdl-checkbox__label">Play sound</span>
+          </label>
+          <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="option__propose_max">
+            <input type="checkbox" id="option__propose_max" class="mdl-checkbox__input">
+            <span class="mdl-checkbox__label">Higher proposed estimation</span>
+          </label>
+          <div class="mdl-dialog__actions">
+            <button data-ref="options" v-on:click="onClickClose" type="button" class="mdl-button mdl-button--colored">Close</button>
+          </div>
+        </div>
+      </dialog>
     </span>
 </template>
 
 <script>
+  import Md5 from "crypto-js/md5";
   export default {
     name: 'Dialogs',
     mounted() {
@@ -111,40 +116,17 @@
       this.$store.dispatch('setDialog', {name: 'change', element: this.$refs.change});
       this.$store.dispatch('setDialog', {name: 'not_exist', element: this.$refs.not_exist});
       this.$store.dispatch('setDialog', {name: 'pass', element: this.$refs.pass});
-      //this.$store.dispatch('setDialog', {name: 'choose', element: this.$refs.choose});
+      this.$store.dispatch('setDialog', {name: 'options', element: this.$refs.options});
       this.$refs.name.addEventListener('cancel', e => {
         e.preventDefault();
       });
     },
     methods: {
-      // onBlurRoom(e) {
-      //   this.handleEventRoom(e);
-      // },
-      // onKeyPressRoom(e) {
-      //   console.log(e.keyCode);
-      //   if (e.keyCode === 13) {
-      //     this.handleEventRoom(e);
-      //     e.target.blur();
-      //     e.target.parentNode.classList.remove('is-focused');
-      //   }
-      // },
-      // handleEventRoom(e) {
-      //   const room = e.target.value;
-      //   if (room) {
-      //     if (!room.length) {
-      //       e.target.parentNode.classList.add('is-invalid');
-      //     }
-      //     if (this.$store.state.app.rooms.includes(room)) {
-      //       e.target.parentNode.classList.add('is-invalid');
-      //     }
-      //     else {
-      //       e.target.parentNode.classList.remove('is-invalid');
-      //       window.location.href = `/room/${room}`;
-      //     }
-      //   }
-      // },
       handlePassEvent(e) {
-        const pass = e.target.value;
+        let pass = e.target.value;
+        if (pass.length) {
+          pass = Md5(pass).toString();
+        }
         this.$store.state.app.emit('join', this.$store.state.app.getLocalData().uuid, pass);
       },
       onPassBlur(e) {
@@ -169,6 +151,10 @@
           e.target.parentNode.classList.remove('is-focused');
         }
       },
+      onClickClose(e) {
+        const ref = e.target.getAttribute('data-ref');
+        this.$refs[ref].close();
+      },
       handleEvent(e) {
         const name = e.target.value;
         if (name && name.length) {
@@ -191,12 +177,6 @@
       },
     },
     computed: {
-      // rooms() {
-      //   return this.$store.state.app.rooms.filter((i) => {return i!=='global';}).slice(0,3);
-      // },
-      // uuid() {
-      //   return this.$store.state.app.generateUuid();
-      // },
       userName: {
         get() {
           return this.$store.state.app.userName;

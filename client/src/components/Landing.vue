@@ -10,7 +10,7 @@
         <div class="mdl-card__title ">
           <span><b>Join room</b></span>
         </div>
-        <div class="mdl-card__supporting-text" style="height: 145px;">
+        <div class="mdl-card__supporting-text">
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
                v-bind:class="[roomNameJoinValid ? 'is-invalid is-focused' : '']">
             <input
@@ -20,6 +20,7 @@
                 id="join"
                 name="join">
             <label class="mdl-textfield__label" for="name">Room name ...</label>
+            <span class="mdl-textfield__error">Only alphanumeric, underlines and dashes allowed</span>
           </div>
         </div>
         <div class="mdl-card__actions mdl-card--border">
@@ -32,7 +33,7 @@
         <div class="mdl-card__title ">
           <span><b>Create room</b></span>
         </div>
-        <div class="mdl-card__supporting-text" style="height: 145px;">
+        <div class="mdl-card__supporting-text">
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label display-block"
             v-bind:class="[roomNameCreateInvalid ? 'is-invalid is-focused' : '']">
             <input
@@ -41,19 +42,14 @@
               ref="room"
               id="name"
               name="name">
-            <label class="mdl-textfield__label" for="name">Room name ([a-zA-Z\d_-]{3,16}) ...</label>
-          </div>
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input
-              class="mdl-textfield__input"
-              type="text"
-              ref="pass"
-              id="pass"
-              name="pass">
-            <label class="mdl-textfield__label" for="pass">Room pass ...</label>
+            <label class="mdl-textfield__label" for="name">Room name ...</label>
+            <span class="mdl-textfield__error">Only alphanumeric, underlines and dashes allowed</span>
           </div>
         </div>
         <div class="mdl-card__actions mdl-card--border">
+          <a v-on:click="onOptionsClick" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            Options
+          </a>
           <a v-on:click="onRoomCreate" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
             Create
           </a>
@@ -64,6 +60,7 @@
 
 <script>
   import MdlCell from "./mdl/MdlCell12";
+  import Md5 from "crypto-js/md5";
   export default {
     components: {MdlCell},
     name: 'Landing',
@@ -76,8 +73,19 @@
           this.$refs.room.parentNode.classList.add('is-invalid');
         }
         else {
-          this.$store.state.app.emit('create_room', name, this.$store.state.app.getLocalData().uuid, this.$refs.pass.value);
+          // Collect props.
+          const state = {};
+          state.sound = document.getElementById('option__sound').checked;
+          state.proposeMax = document.getElementById('option__propose_max').checked;
+          let pass = document.getElementById('option__pass').value;
+          if (pass.length) {
+            pass = Md5(pass).toString();
+          }
+          this.$store.state.app.emit('create_room', name, this.$store.state.app.getLocalData().uuid, pass, state);
         }
+      },
+      onOptionsClick() {
+        this.$store.state.dialogs.options.showModal();
       },
       onRoomJoin(e) {
         e.preventDefault();
@@ -109,17 +117,9 @@
         if (str === 'global') {
           return false;
         }
-        const pattern = new RegExp('^[a-z\\d_-]{3,}$','i'); // fragment locator
+        const pattern = new RegExp('^[A-Za-z\\d_-]{3,16}$','i');
         return !!pattern.test(str);
       },
-      // validUrl(string) {
-      //   try {
-      //     new URL(string);
-      //   } catch (_) {
-      //     return false;
-      //   }
-      //   return true;
-      // },
       onBlur(e) {
         this.handleEvent(e);
       },
