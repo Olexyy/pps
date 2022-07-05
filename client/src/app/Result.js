@@ -2,6 +2,11 @@ class Result {
 
     constructor() {
         this.clear();
+        this.max = false;
+    }
+
+    setMax(val) {
+        this.max = val;
     }
 
     clear() {
@@ -63,13 +68,17 @@ class Result {
                 high = values[i];
                 let valLow = this.recommended - low;
                 let valHigh = high - this.recommended;
-                if (valLow <= valHigh) {
-                    this.recommended = low;
-                    break;
-                }
-                else {
+                if (this.max) {
                     this.recommended = high;
-                    break;
+                } else {
+                    if (valLow < valHigh) {
+                        this.recommended = low;
+                        break;
+                    }
+                    else {
+                        this.recommended = high;
+                        break;
+                    }
                 }
             }
         }

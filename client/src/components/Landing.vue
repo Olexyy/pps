@@ -43,7 +43,7 @@
               id="name"
               name="name">
             <label class="mdl-textfield__label" for="name">Room name ...</label>
-            <span class="mdl-textfield__error">Only alphanumeric, underlines and dashes allowed</span>
+            <span class="mdl-textfield__error">Only alphanumeric, underlines and dashes allowed, from 3 to 16 symbols</span>
           </div>
         </div>
         <div class="mdl-card__actions mdl-card--border">

@@ -8,7 +8,7 @@
           <th class="width-fixed-50">Vote</th>
           <th class="width-fixed-50">Is voting</th>
           <th class="width-fixed-50">Status</th>
-          <th v-if="isOwner" class="width-fixed-50">Kick</th>
+          <th v-if="isOwnerOrAdmin" class="width-fixed-50">Kick</th>
         </tr>
       </thead>
       <tbody v-if="dataExists" id="table_body">
@@ -33,8 +33,8 @@
           <td v-else class="width-fixed-50"><span style="color: gray" class="material-icons">highlight_off</span></td>
           <td v-if="isOnline(id)" class="width-fixed-50"><span style="color: gray" class="material-icons">task_alt</span></td>
           <td v-else class="width-fixed-50"><span style="color: gray" class="material-icons">highlight_off</span></td>
-          <td v-if="isOwner && id === app.uuid" class="width-fixed-50"></td>
-          <td v-else-if="isOwner" class="width-fixed-50"><a v-on:click="kick"><span style="color: gray" :data-uuid="id" class="material-icons">remove_circle</span></a></td>
+          <td v-if="(isOwnerOrAdmin) && isUserOwner(player.uuid)" class="width-fixed-50"></td>
+          <td v-else-if="isOwnerOrAdmin" class="width-fixed-50"><a v-on:click="kick"><span style="color: gray" :data-uuid="id" class="material-icons">remove_circle</span></a></td>
         </tr>
         <tr v-if="average && discuss === 'result'">
           <td class="width-fixed-50">Average:</td>
@@ -70,6 +70,9 @@
       kick(e) {
         const uuid = e.target.getAttribute('data-uuid');
         this.$store.state.app.emit('kick', uuid);
+      },
+      isUserOwner(uuid) {
+        return this.$store.state.app.isUserOwner(uuid);
       }
     },
     computed: {
@@ -100,8 +103,8 @@
       su() {
         return this.$store.state.app.isSU();
       },
-      isOwner() {
-        return this.$store.state.app.isOwner;
+      isOwnerOrAdmin() {
+        return this.$store.state.app.isOwnerOrAdmin();
       }
     },
   }

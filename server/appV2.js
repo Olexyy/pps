@@ -12,7 +12,7 @@ class AppV2 {
     bind() {
         this.sockets.on('connect', socket => {
             socket.on('join', (room, uuid, pass) => {
-                console.log(JSON.stringify(room), JSON.stringify(uuid), JSON.stringify(pass));
+                //console.log(JSON.stringify(room), JSON.stringify(uuid), JSON.stringify(pass));
                 if (!this.roomExists(room)) {
                     this.sockets.to(socket.id).emit('join_fail', 'room');
                 } else if (!this.roomAccess(room, uuid, pass)) {
@@ -22,8 +22,8 @@ class AppV2 {
                     this.sockets.to(room).emit('status', this.app.rooms[room]);
                 }
             });
-            socket.on('create_room', (global, room, uuid, pass, state = {}) => {
-                console.log(JSON.stringify(room), JSON.stringify(uuid), JSON.stringify(pass));
+            socket.on('create_room', (global, room, uuid, pass, state) => {
+                //console.log(JSON.stringify(room), JSON.stringify(uuid), JSON.stringify(pass));
                 if (this.createRoom(room, pass, uuid, state)) {
                     this.ensureUser(room, socket, uuid);
                     console.log(JSON.stringify(this.app.rooms[room]));
@@ -42,7 +42,7 @@ class AppV2 {
             socket.on('delete_room', (room) => {
                 this.deleteRoom(room);
                 this.sockets.to(room).emit('kick', room, true);
-                console.log('delete_room:' + room);
+                //console.log('delete_room:' + room);
             });
             // socket.on('touch', (roomProps = {}) => {
             //     this.sockets.to(socket.id).emit('touch', {rooms: this.collectRooms(roomProps)});
@@ -66,7 +66,7 @@ class AppV2 {
                 this.sockets.to(room).emit('status', this.app.rooms[room]);
             });
             socket.on('liveness', () => {
-                console.log(`socket ${socket.id} is live`);
+                //console.log(`socket ${socket.id} is live`);
             });
             socket.on('disconnect', () => {
                 this.deleteUser(socket.id);
@@ -95,9 +95,6 @@ class AppV2 {
                             rooms[room][key] = Object.keys(this.app.rooms[room][key]).length;
                         }
                     }
-                    // else {
-                    //     rooms[room] = this.app.rooms[room].state[key];
-                    // }
                 }
             });
         });

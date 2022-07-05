@@ -31,6 +31,23 @@ class App {
         this.roomNameJoinValid = true;
         // Predicate to define if pass is valid.
         this.passValid = true;
+        this.sound = false;
+        this.proposeMax = false;
+        this.adminUsers = [];
+    }
+
+    getUsers() {
+        const users = {};
+        const uuid = this.uuid;
+        if (this.data && this.data.hasOwnProperty('users')) {
+            Object.values(this.data.users).forEach(function (value) {
+                if (value.uuid !== uuid) {
+                    users[value.uuid] = value.name;
+                }
+            });
+        }
+
+        return users;
     }
 
     isGlobalRoom() {
@@ -186,6 +203,12 @@ class App {
         this.othersNonVoted = othersNonVoted;
         this.discuss = value.state.discuss || 'idle';
         this.topic = value.state.topic || '';
+        this.sound = value.state.sound || false;
+        this.proposeMax = value.state.proposeMax;
+        this.result.setMax(this.proposeMax);
+        if (value.state.hasOwnProperty('adminUsers')) {
+            this.adminUsers = value.state.adminUsers;
+        }
         // If we just started discuss.
         if (this.discuss === 'discuss') {
             this.timer.start();
@@ -208,14 +231,16 @@ class App {
     // eslint-disable-next-line no-unused-vars
     trigger(name, data, context) {
         if (name === 'sound') {
-            let src = '/pop_50.mp3';
-            let audio = new Audio(src);
-            audio.play();
+            if (this.sound) {
+                let src = '/pop_50.mp3';
+                let audio = new Audio(src);
+                audio.play();
+            }
         }
     }
 
-    emit(name, value1 = {}, value2 = {}, value3 = {}) {
-        return this.socket.emit(name, this.room, value1, value2, value3);
+    emit(name, value1 = {}, value2 = {}, value3 = {}, value4 = {}) {
+        return this.socket.emit(name, this.room, value1, value2, value3, value4);
     }
 
     getQueryParam(name, url = window.location.href) {
@@ -237,6 +262,18 @@ class App {
         return this.debug;
     }
 
+    isAdmin() {
+        return this.adminUsers.includes(this.uuid);
+    }
+
+    isUserOwner(uuid) {
+        return this.data.owner === uuid;
+    }
+
+    isOwnerOrAdmin() {
+        return this.isOwner || this.isAdmin();
+    }
+
     toJson() {
         return {
             vote: this.vote,
@@ -249,7 +286,10 @@ class App {
             result: this.result,
             room: this.room,
             uuid: this.uuid,
-            rooms: this.rooms
+            rooms: this.rooms,
+            sound: this.sound,
+            proposeMax: this.proposeMax,
+            adminUsers: this.adminUsers
         };
     }
 

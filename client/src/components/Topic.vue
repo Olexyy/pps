@@ -9,7 +9,9 @@
         class="mdl-textfield__input"
         type="text"
         id="topic"
-        name="topic">
+        name="topic"
+        :disabled="!(isOwnerOrAdmin)"
+      >
       <label class="mdl-textfield__label" for="topic">Topic...</label>
     </mdl-text-field>
     <button
@@ -69,6 +71,9 @@
       }
     },
     computed: {
+      isOwnerOrAdmin() {
+        return this.$store.state.app.isOwnerOrAdmin();
+      },
       room() {
         return this.$store.state.app.room;
       },

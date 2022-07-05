@@ -46,6 +46,9 @@
             <a v-else id="set_voting" v-on:click="setVoting" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
               Voting
             </a>
+            <a v-if="isOwner" id="change_options" v-on:click="changeOptions" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+              Settings
+            </a>
             <a v-if="isOwner" id="delete_room" v-on:click="deleteRoom" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
               Delete room
             </a>
@@ -92,6 +95,10 @@
       },
     },
     methods: {
+      changeOptions() {
+
+        this.$store.state.dialogs.options_change.showModal();
+      },
       onChangeNameClick() {
         this.$store.state.dialogs.change.showModal();
       },

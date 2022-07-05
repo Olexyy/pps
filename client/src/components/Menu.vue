@@ -1,7 +1,7 @@
 <template>
   <div class="mdl-card__menu">
     <span v-if="time">{{time}}</span>
-    <span v-if="isOwner">
+    <span v-if="isOwnerOrAdmin">
       <button
         v-if="discuss === 'result'"
         id="discuss"
@@ -41,9 +41,9 @@
       topic() {
         return this.$store.state.app.topic;
       },
-      isOwner() {
-        return this.$store.state.app.isOwner;
-      }
+      isOwnerOrAdmin() {
+        return this.$store.state.app.isOwnerOrAdmin();
+      },
     },
     methods: {
       onDiscussClick() {
