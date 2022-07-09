@@ -1,39 +1,43 @@
 <template>
     <span>
-      <dialog class="mdl-dialog" ref="name" id="name_dialog">
-        <h4 class="mdl-dialog__title">Name yourself TODO SWITCH TO BUTTONS</h4>
+      <dialog class="mdl-dialog" ref="name_dialog" id="name_dialog">
+        <h4 class="mdl-dialog__title">Name yourself</h4>
         <div class="mdl-dialog__content">
           <p>Field is required, cannot match any existing name.</p>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input
               v-model="userName"
-              v-on:blur="onBlur"
-              v-on:keypress="onKeyPress"
               class="mdl-textfield__input"
               type="text"
-              data-ref="name"
+              data-ref="name_dialog"
               id="name"
-              name="name">
+              name="name"
+              ref="name_input">
             <label class="mdl-textfield__label" for="name">Name...</label>
           </div>
         </div>
+        <div class="mdl-dialog__actions">
+          <button data-ref="name_dialog" v-on:click="onNameInput" type="button" class="mdl-button mdl-button--colored">Join</button>
+        </div>
       </dialog>
       <dialog class="mdl-dialog" ref="change" id="change_dialog">
-        <h4 class="mdl-dialog__title">Change name TODO SWITCH TO BUTTONS</h4>
+        <h4 class="mdl-dialog__title">Change name</h4>
         <div class="mdl-dialog__content">
           <p>Field is required, cannot match any existing name, press ESC to cancel.</p>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
           <input
               v-model="userName"
-              v-on:blur="onBlur"
-              v-on:keypress="onKeyPress"
               data-ref="change"
               class="mdl-textfield__input"
               type="text"
               id="name"
-              name="name">
+              name="name"
+              ref="name_change">
           <label class="mdl-textfield__label" for="name">Name...</label>
           </div>
+        </div>
+        <div class="mdl-dialog__actions">
+          <button data-ref="name_dialog" v-on:click="onNameChange" type="button" class="mdl-button mdl-button--colored">Change</button>
         </div>
       </dialog>
       <dialog class="mdl-dialog" ref="start" id="start_dialog">
@@ -60,21 +64,23 @@
           </p>
         </div>
       </dialog>
-      <dialog class="mdl-dialog" ref="pass" id="pass_dialog">
+      <dialog class="mdl-dialog" ref="pass_dialog" id="pass_dialog">
         <h4 class="mdl-dialog__title">Password</h4>
         <div class="mdl-dialog__content">
-          <p>This room requires password. Input password to join room. TODO SWITCH TO BUTTONS</p>
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <p>This room requires password. Input password to join room.</p>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" v-bind:class="[passAttempt === 'fail' ? 'is-invalid is-focused' : '']">
           <input
-              v-on:blur="onPassBlur"
-              v-on:keypress="onPassKeyPress"
-              data-ref="pass"
+              ref="pass_input"
+              data-ref="pass_dialog"
               class="mdl-textfield__input"
-              type="text"
+              type="password"
               id="pass"
               name="pass">
           <label class="mdl-textfield__label" for="pass">Password...</label>
           </div>
+        </div>
+        <div class="mdl-dialog__actions">
+          <button data-ref="options" v-on:click="onPassJoin" type="button" class="mdl-button mdl-button--colored">Join</button>
         </div>
       </dialog>
       <dialog class="mdl-dialog no-close" ref="options" id="options">
@@ -98,15 +104,15 @@
             <input type="checkbox" id="option__propose_max">
             <span>Higher proposed estimation</span>
           </label>
-          <div class="mdl-dialog__actions">
-            <button data-ref="options" v-on:click="onOptionsClose" type="button" class="mdl-button mdl-button--colored">Close</button>
-          </div>
+        </div>
+        <div class="mdl-dialog__actions">
+          <button data-ref="options" v-on:click="onOptionsClose" type="button" class="mdl-button mdl-button--colored">Close</button>
         </div>
       </dialog>
       <dialog class="mdl-dialog no-close" ref="options_change" id="options_change">
         <h4 class="mdl-dialog__title">Room options</h4>
         <div class="mdl-dialog__content">
-          <div>Change room options.</div>
+          <div>Change room options:</div>
           <label for="option__sound_change" style="display: block;">
             <input type="checkbox" id="option__sound_change" v-model="sound">
             <span >Play sound </span>
@@ -115,13 +121,14 @@
             <input type="checkbox" id="option__propose_max_change" v-model="proposeMax" >
             <span >Higher proposed estimation </span>
           </label>
-          <div class="mdl-dialog__actions">
-            <button data-ref="options_change" v-on:click="onClose" type="button" class="mdl-button mdl-button--colored">Close</button>
-          </div>
+          <div v-if="Object.keys(users).length">Admin users:</div>
           <label v-for="(userName, id) in users" :key="`ind-${userName}-${id}`" for="option__sound_change" style="display: block;">
             <input type="checkbox" :id="id" :value="id" v-model="adminUsers">
             <span>{{userName}}</span>
           </label>
+        </div>
+        <div class="mdl-dialog__actions">
+          <button data-ref="options_change" v-on:click="onClose" type="button" class="mdl-button mdl-button--colored">Close</button>
         </div>
       </dialog>
     </span>
@@ -132,21 +139,21 @@
   export default {
     name: 'Dialogs',
     mounted() {
-      this.$store.dispatch('setDialog', {name: 'name', element: this.$refs.name});
+      this.$store.dispatch('setDialog', {name: 'name_dialog', element: this.$refs.name_dialog});
       this.$store.dispatch('setDialog', {name: 'error', element: this.$refs.error});
       this.$store.dispatch('setDialog', {name: 'start', element: this.$refs.start});
       this.$store.dispatch('setDialog', {name: 'change', element: this.$refs.change});
       this.$store.dispatch('setDialog', {name: 'not_exist', element: this.$refs.not_exist});
-      this.$store.dispatch('setDialog', {name: 'pass', element: this.$refs.pass});
+      this.$store.dispatch('setDialog', {name: 'pass_dialog', element: this.$refs.pass_dialog});
       this.$store.dispatch('setDialog', {name: 'options', element: this.$refs.options});
       this.$store.dispatch('setDialog', {name: 'options_change', element: this.$refs.options_change});
-      this.$refs.name.addEventListener('cancel', e => {
+      this.$refs.name_dialog.addEventListener('cancel', e => {
         e.preventDefault();
       });
-      this.$refs.name.addEventListener('error', e => {
+      this.$refs.error.addEventListener('cancel', e => {
         e.preventDefault();
       });
-      this.$refs.name.addEventListener('not_exist', e => {
+      this.$refs.not_exist.addEventListener('cancel', e => {
         e.preventDefault();
       });
       this.$refs.options.addEventListener('cancel', e => {
@@ -157,22 +164,6 @@
       });
     },
     methods: {
-      handlePassEvent(e) {
-        let pass = e.target.value;
-        if (pass.length) {
-          pass = Md5(pass).toString();
-        }
-        this.$store.state.app.emit('join', this.$store.state.app.getLocalData().uuid, pass);
-      },
-      onPassBlur(e) {
-        const pass = e.target.value;
-        if (this.validPassword(pass)) {
-          e.target.parentNode.classList.remove('is-invalid');
-          this.handlePassEvent(e);
-        } else {
-          e.target.parentNode.classList.add('is-invalid');
-        }
-      },
       validPassword(pass) {
         if (pass.length) {
           const pattern = new RegExp('^.{3,16}$','i');
@@ -180,23 +171,29 @@
         }
         return true;
       },
-      onPassKeyPress(e) {
-        if (e.keyCode === 13) {
-          const pass = e.target.value;
-          if (this.validPassword(pass)) {
-            e.target.parentNode.classList.remove('is-invalid');
-            this.handlePassEvent(e);
-            e.target.blur();
-            e.target.parentNode.classList.remove('is-focused');
-            const ref = e.target.getAttribute('data-ref');
-            this.$refs[ref].close();
-          } else {
-            e.target.parentNode.classList.add('is-invalid');
+      onPassJoin() {
+        const el = this.$refs.pass_input;
+        let pass = el.value;
+        if (this.validPassword(pass)) {
+          el.parentNode.classList.remove('is-invalid');
+          if (pass.length) {
+            pass = Md5(pass).toString();
           }
+          this.$store.state.app.emit('join', this.$store.state.app.getLocalData().uuid, pass);
+          this.$store.state.app.passAttempt = 'try';
+          //el.blur();
+          //el.parentNode.classList.remove('is-focused');
+          const ref = el.getAttribute('data-ref');
+          this.$refs[ref].close();
+        } else {
+          el.parentNode.classList.add('is-invalid');
         }
       },
-      onBlur(e) {
-        this.handleEvent(e);
+      onNameInput() {
+        this.handleEvent('name_input');
+      },
+      onNameChange() {
+        this.handleEvent('name_change');
       },
       onKeyPress(e) {
         if (e.keyCode === 13) {
@@ -221,30 +218,36 @@
           this.$refs[ref].close();
         }
       },
-      handleEvent(e) {
-        const name = e.target.value;
+      handleEvent(name_input) {
+        const el = this.$refs[name_input];
+        const name = el.value;
         if (name && name.length) {
-          e.target.parentNode.classList.add('is-dirty');
+          el.parentNode.classList.add('is-dirty');
           if (this.$store.state.app.nameExists(name)) {
-            e.target.parentNode.classList.add('is-invalid');
+            el.parentNode.classList.add('is-invalid');
           }
           else {
-            e.target.parentNode.classList.remove('is-invalid');
+            el.parentNode.classList.remove('is-invalid');
             const localData = this.$store.state.app.getLocalData();
-            localData.name = e.target.value;
+            localData.name = el.value;
             this.$store.state.app.setLocalData(localData);
             this.$store.state.app.emit('update', this.$store.state.app.buildUser({
               name: localData.name
             }));
-            const ref = e.target.getAttribute('data-ref');
+            const ref = el.getAttribute('data-ref');
             this.$refs[ref].close();
           }
+        } else {
+          el.parentNode.classList.add('is-invalid');
         }
       },
     },
     computed: {
+      passAttempt() {
+        return this.$store.state.app.passAttempt;
+      },
       users() {
-        return this.$store.state.app.getUsers()
+        return this.$store.state.app.getAllExceptOwner()
       },
       sound: {
         get() {
@@ -274,8 +277,6 @@
           return this.$store.state.app.adminUsers;
         },
         set(value) {
-          console.log('-----------------');
-          console.log(value);
           this.$store.state.app.emit('update', {}, {adminUsers: value});
         }
       }

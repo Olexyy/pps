@@ -8,6 +8,7 @@
           <th class="width-fixed-50">Vote</th>
           <th class="width-fixed-50">Is voting</th>
           <th class="width-fixed-50">Status</th>
+          <th v-if="isOwner" class="width-fixed-50">Role</th>
           <th v-if="isOwnerOrAdmin" class="width-fixed-50">Kick</th>
         </tr>
       </thead>
@@ -33,6 +34,9 @@
           <td v-else class="width-fixed-50"><span style="color: gray" class="material-icons">highlight_off</span></td>
           <td v-if="isOnline(id)" class="width-fixed-50"><span style="color: gray" class="material-icons">task_alt</span></td>
           <td v-else class="width-fixed-50"><span style="color: gray" class="material-icons">highlight_off</span></td>
+          <td v-if="isOwner && isUserOwner(player.uuid)" class="width-fixed-50">Owner</td>
+          <td v-else-if="isOwner && isUserAdmin(player.uuid)" class="width-fixed-50">Admin</td>
+          <td v-else-if="isOwner" class="width-fixed-50">User</td>
           <td v-if="(isOwnerOrAdmin) && isUserOwner(player.uuid)" class="width-fixed-50"></td>
           <td v-else-if="isOwnerOrAdmin" class="width-fixed-50"><a v-on:click="kick"><span style="color: gray" :data-uuid="id" class="material-icons">remove_circle</span></a></td>
         </tr>
@@ -73,6 +77,9 @@
       },
       isUserOwner(uuid) {
         return this.$store.state.app.isUserOwner(uuid);
+      },
+      isUserAdmin(uuid) {
+        return this.$store.state.app.isUserAdmin(uuid);
       }
     },
     computed: {
@@ -105,6 +112,9 @@
       },
       isOwnerOrAdmin() {
         return this.$store.state.app.isOwnerOrAdmin();
+      },
+      isOwner() {
+        return this.$store.state.app.isOwner;
       }
     },
   }

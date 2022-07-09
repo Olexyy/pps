@@ -49,8 +49,11 @@ class SocketHandler {
                 app.hasAccess = false;
             }
             else if (reason === 'pass') {
-                if (!context.state.dialogs.pass.hasAttribute('open')) {
-                    context.state.dialogs.pass.showModal();
+                if (!context.state.dialogs.pass_dialog.hasAttribute('open')) {
+                    context.state.dialogs.pass_dialog.showModal();
+                    if (app.passAttempt === 'try') {
+                        app.passAttempt = 'fail';
+                    }
                 }
                 app.hasAccess = false;
             }

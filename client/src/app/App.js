@@ -23,7 +23,6 @@ class App {
         this.isOwner = false;
         this.hasAccess = false;
         this.debug = null;
-        // TODO delete.
         this.rooms = {};
         // Predicate to define if room create name is valid.
         this.roomNameCreateValid = true;
@@ -34,9 +33,10 @@ class App {
         this.sound = false;
         this.proposeMax = false;
         this.adminUsers = [];
+        this.passAttempt = 'none';
     }
 
-    getUsers() {
+    getAllExceptOwner() {
         const users = {};
         const uuid = this.uuid;
         if (this.data && this.data.hasOwnProperty('users')) {
@@ -172,8 +172,8 @@ class App {
                 return;
             }
             else {
-                if (!context.state.dialogs.name.hasAttribute('open')) {
-                    context.state.dialogs.name.showModal();
+                if (!context.state.dialogs.name_dialog.hasAttribute('open')) {
+                    context.state.dialogs.name_dialog.showModal();
                 }
             }
         }
@@ -268,6 +268,10 @@ class App {
 
     isUserOwner(uuid) {
         return this.data.owner === uuid;
+    }
+
+    isUserAdmin(uuid) {
+        return this.adminUsers.includes(uuid);
     }
 
     isOwnerOrAdmin() {

@@ -37,7 +37,7 @@ git push heroku [from:branch]:[to:branch]
 ```md
 1. User can join or create room.
 2. Owner of room can set password.
-3. Visitor shuold set name and pass if required.
+3. Visitor should set name and pass if required.
 4. Owner can kick any other user/close room.
 ```
 
@@ -45,7 +45,7 @@ git push heroku [from:branch]:[to:branch]
 ```md
 1. dynamic description OK
 2. control flow only owner OK
-3. assign admin -> TODO (may move process, set topic, kick (non owner))
+3. assign admin -> TODO (may move process, set topic, kick (non owner)) OK
 4. options:
     - sound configurable -> TODO OK
     - remove play sound button OK  
@@ -55,10 +55,7 @@ git push heroku [from:branch]:[to:branch]
 6. room name validation??? OK
 7. debug console log in server and client ->
 8. pass validation -> OK
-9. add enter button on non error dialogs ->
-10. pass on enter should be pass
-```
-## Bugs
-```md
-1. 
+9. add enter button on non error dialogs -> OK
+10. pass on enter should be pass OK
+11. show user roles for owner OK
 ```

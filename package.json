@@ -5,7 +5,7 @@
   "main": "./server/server.js",
   "scripts": {
     "start": "cd server && node server.js",
-    "serve": "cd server && node server.js",
+    "start-dev": "cd server && node server.js --debug=1",
     "watch-cli": "cd client && npm run watch",
     "build-cli": "cd client && npm run build"
   },
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "minimist": "^1.2.6",
     "socket.io": "^2.2.0"
   },
   "repository": {
