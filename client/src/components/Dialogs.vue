@@ -37,7 +37,8 @@
           </div>
         </div>
         <div class="mdl-dialog__actions">
-          <button data-ref="name_dialog" v-on:click="onNameChange" type="button" class="mdl-button mdl-button--colored">Change</button>
+          <button data-ref="change" v-on:click="onClose" type="button" class="mdl-button mdl-button--colored">Cancel</button>
+          <button data-ref="change" v-on:click="onNameChange" type="button" class="mdl-button mdl-button--colored">Change</button>
         </div>
       </dialog>
       <dialog class="mdl-dialog" ref="start" id="start_dialog">
